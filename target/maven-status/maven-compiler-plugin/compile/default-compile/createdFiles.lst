@@ -1,0 +1,3 @@
+xyf\xrpc\config\schema\spring\XrpcNamespaceHandler.class
+xyf\xrpc\config\schema\spring\ApplicationConfigBeanDefinitionParser.class
+xyf\xrpc\config\schema\spring\RegistryConfigBeanDefinitionParser.class

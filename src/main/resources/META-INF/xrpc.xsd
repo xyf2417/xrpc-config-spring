@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://pro.xyf/schema/xrpc"
+            targetNamespace="http://pro.xyf/schema/xrpc">
+
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+
+    <xsd:annotation>
+        <xsd:documentation>
+            <![CDATA[ xyf.xrpc. ]]></xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:complexType name="abstractConfigType">
+    	<xsd:attribute name="id" type="xsd:string" use="optional">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The id of this config. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    </xsd:complexType>
+    
+    <xsd:complexType name="referenceType">
+    	<xsd:attribute name="name" type="xsd:string" use="optional">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The reference name. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="id" type="xsd:string" use="optional">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The reference id. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="interface" type="xsd:string" use="required">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The reference interface. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="host" type="xsd:string" use="optional">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The service ip/host. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="port" type="xsd:integer" use="optional">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The service port. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="mock" type="xsd:string" use="optional">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The bean id of mock implementaion. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="stub" type="xsd:string" use="optional">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The bean id of local stub. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    </xsd:complexType>
+    
+
+    <xsd:element name="reference" type="referenceType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ The reference config ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    
+    <xsd:complexType name="protocolType">
+    	<xsd:complexContent>
+            <xsd:extension base="abstractConfigType">
+		    	<xsd:attribute name="name" type="xsd:string" use="optional" default="frpc">
+		    		<xsd:annotation>
+		                <xsd:documentation><![CDATA[ The server protocol. ]]></xsd:documentation>
+		            </xsd:annotation>
+		    	</xsd:attribute>
+		    	<xsd:attribute name="port" type="xsd:integer" use="required">
+		    		<xsd:annotation>
+		                <xsd:documentation><![CDATA[ The server port. ]]></xsd:documentation>
+		            </xsd:annotation>
+		    	</xsd:attribute>
+		    	<xsd:attribute name="transport" type="xsd:string" use="optional" default="netty">
+		    		<xsd:annotation>
+		                <xsd:documentation><![CDATA[ The transport type. ]]></xsd:documentation>
+		            </xsd:annotation>
+		    	</xsd:attribute>
+	    	</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="protocol" type="protocolType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ The protocol config ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    
+    
+    <xsd:complexType name="registryAddressType">
+    	<xsd:attribute name="host" type="xsd:string" use="required">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The reristry host(IP). ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="port" type="xsd:integer" use="required">
+    		<xsd:annotation>
+                <xsd:documentation><![CDATA[ The reristry port. ]]></xsd:documentation>
+            </xsd:annotation>
+    	</xsd:attribute>
+    </xsd:complexType>
+    <xsd:element name="registryAddress" type="registryAddressType"/>
+    
+    <xsd:complexType name="registryAddressesType">
+   		<xsd:sequence  maxOccurs="unbounded" minOccurs="1">
+	    	<xsd:element ref="registryAddress" />
+    	</xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="addresses" type="registryAddressesType"/>
+	
+	<xsd:complexType name="registryType">
+		<xsd:sequence maxOccurs="1" minOccurs="1">
+			<xsd:element ref="addresses"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:string" use="required">
+	    		<xsd:annotation>
+	                <xsd:documentation><![CDATA[ The registry id. ]]></xsd:documentation>
+	            </xsd:annotation>
+	    	</xsd:attribute>
+		    <xsd:attribute name="type" type="xsd:string" use="required">
+	    		<xsd:annotation>
+	                <xsd:documentation><![CDATA[ The registry type. ]]></xsd:documentation>
+	            </xsd:annotation>
+	    	</xsd:attribute>
+	</xsd:complexType>
+
+    
+    <xsd:element name="registry" type="registryType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ The registry config ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    
+    <xsd:complexType name="applicationType">
+    	<xsd:complexContent>
+            <xsd:extension base="abstractConfigType">
+		    	<xsd:attribute name="name" type="xsd:string" use="required">
+		    		<xsd:annotation>
+		                <xsd:documentation><![CDATA[ The application name. ]]></xsd:documentation>
+		            </xsd:annotation>
+		    	</xsd:attribute>
+	    	</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="application" type="applicationType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ The Application config ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    
+    <xsd:complexType name="serviceType">
+    	<xsd:complexContent>
+            <xsd:extension base="abstractConfigType">
+		    	<xsd:attribute name="interface" type="xsd:string" use="required">
+		    		<xsd:annotation>
+		                <xsd:documentation><![CDATA[ The service interface. ]]></xsd:documentation>
+		            </xsd:annotation>
+		    	</xsd:attribute>
+		    	<xsd:attribute name="ref" type="xsd:string" use="required">
+		    		<xsd:annotation>
+		                <xsd:documentation><![CDATA[ The service implementation bean id. ]]></xsd:documentation>
+		            </xsd:annotation>
+		    	</xsd:attribute>
+	    	</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="service" type="serviceType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ The service ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+ 
+</xsd:schema>
